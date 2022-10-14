@@ -1,6 +1,3 @@
-use std::io::Read;
-
-use bytes::Buf;
 use wasm_bindgen::prelude::*;
 
 mod encoder;
@@ -32,20 +29,15 @@ pub fn test_gatto() {
     alert("micio miao");
 }
 
-// fn main(){
-//     let source_img =  read_image_data("boh.png");
-//     let encoded_text = encoder::encode_text("miao", &source_img.bytes);
-//     write_image("out.png", source_img, encoded_text);
+fn main(){
+    let source_img =  read_image_data("boh.png");
+    let encoded_text = encoder::encode_text("miao", &source_img.bytes);
+    write_image("out.png", source_img, encoded_text);
 
-//     let source_img = read_image_data("out.png");
-//     let text = decoder::decode_text(&source_img.bytes);
-//     println!("{text}");
+    let source_img = read_image_data("out.png");
+    let text = decoder::decode_text(&source_img.bytes);
+    println!("{text}");
 
-// }
-
-fn main() {
-    let bytes: Vec<u8> = vec![1, 2, 3, 4];
-    read_image_data_from_bytes(bytes);
 }
 
 
