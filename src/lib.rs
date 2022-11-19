@@ -25,6 +25,27 @@ extern {
 }
 
 #[wasm_bindgen]
+extern "C" {
+    // Use `js_namespace` here to bind `console.log(..)` instead of just
+    // `log(..)`
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+
+    // The `console.log` is quite polymorphic, so we can bind it with multiple
+    // signatures. Note that we need to use `js_name` to ensure we always call
+    // `log` in JS.
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_u32(a: u32);
+
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_array(a: &[u8]);
+
+    // Multiple arguments too!
+    #[wasm_bindgen(js_namespace = console, js_name = log)]
+    fn log_many(a: &str, b: &str);
+}
+
+#[wasm_bindgen]
 pub fn test_gatto() {
     alert("micio miao");
 }
@@ -53,10 +74,19 @@ pub fn set_panic_hook() {
 }
 
 #[wasm_bindgen]
-pub fn encode_file(bytes: Vec<u8>) -> Vec<u8> {
+pub fn encode_file(bytes: Vec<u8>, text: &str) -> Vec<u8> {
     set_panic_hook();
 
     let source_img =  read_image_data_from_bytes(bytes);
-    let encoded_text = encoder::encode_text("miao", &source_img.bytes);
+    let encoded_text = encoder::encode_text(text, &source_img.bytes);
     write_image_to_bytes(source_img, encoded_text)
+}
+
+#[wasm_bindgen]
+pub fn decode_file(bytes: Vec<u8>) -> String {
+    set_panic_hook();
+
+    let source_img =  read_image_data_from_bytes(bytes);
+    let decoded_text = decoder::decode_text(&source_img.bytes);
+    decoded_text
 }
