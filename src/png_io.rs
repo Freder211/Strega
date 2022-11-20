@@ -1,7 +1,7 @@
 use std::{path::Path, io::Write};
 use std::io::{BufWriter};
 use bytes::{Bytes, BufMut, Buf};
-use image::ColorType;
+use image::{ColorType, ImageFormat, DynamicImage};
 use std::fs::File;
 
 
@@ -12,22 +12,23 @@ pub struct ImageData {
     pub color_type: ColorType
 }
 
-pub fn read_image_data_from_bytes(bytes: Vec<u8>) -> ImageData {
+pub fn read_image_data_from_bytes(bytes: Vec<u8>, format: ImageFormat) -> ImageData {
 
-    return ImageData {
-        bytes: Vec::from([]),
-        width: 1,
-        height: 1,
-        color_type: ColorType::La16
-    }
+    let img = image::load_from_memory_with_format(&bytes, format).unwrap();
+    return read_image_data(img);
 }
 
-pub fn read_image_data(image_path: &str) -> ImageData {
-    let image = image::open(image_path).unwrap();
-    let width = image.width();
-    let height = image.height();
-    let color_type = image.color();
-    let bytes = image.into_bytes();
+
+pub fn read_image_data_from_file(image_path: &str) -> ImageData {
+    let img = image::open(image_path).unwrap();
+    return read_image_data(img);
+}
+
+fn read_image_data(img: DynamicImage) -> ImageData {
+    let width = img.width();
+    let height = img.height();
+    let color_type = img.color();
+    let bytes = img.into_bytes();
     return ImageData {
         bytes,
         width,

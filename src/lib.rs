@@ -5,7 +5,7 @@ mod decoder;
 mod utils;
 mod png_io;
 
-use png_io::{read_image_data, write_image, read_image_data_from_bytes, write_image_to_bytes};
+use png_io::{write_image, read_image_data_from_bytes, write_image_to_bytes};
 use utils::print_vector;
 
 const HEADER_SIZE: usize = 2;
@@ -50,16 +50,6 @@ pub fn test_gatto() {
     alert("micio miao");
 }
 
-fn main(){
-    let source_img =  read_image_data("boh.png");
-    let encoded_text = encoder::encode_text("miao", &source_img.bytes);
-    write_image("out.png", source_img, encoded_text);
-
-    let source_img = read_image_data("out.png");
-    let text = decoder::decode_text(&source_img.bytes);
-    println!("{text}");
-
-}
 
 
 pub fn set_panic_hook() {
@@ -77,7 +67,7 @@ pub fn set_panic_hook() {
 pub fn encode_file(bytes: Vec<u8>, text: &str) -> Vec<u8> {
     set_panic_hook();
 
-    let source_img =  read_image_data_from_bytes(bytes);
+    let source_img =  read_image_data_from_bytes(bytes, image::ImageFormat::Png);
     let encoded_text = encoder::encode_text(text, &source_img.bytes);
     write_image_to_bytes(source_img, encoded_text)
 }
@@ -86,7 +76,7 @@ pub fn encode_file(bytes: Vec<u8>, text: &str) -> Vec<u8> {
 pub fn decode_file(bytes: Vec<u8>) -> String {
     set_panic_hook();
 
-    let source_img =  read_image_data_from_bytes(bytes);
+    let source_img =  read_image_data_from_bytes(bytes, image::ImageFormat::Png);
     let decoded_text = decoder::decode_text(&source_img.bytes);
     decoded_text
 }
