@@ -64,8 +64,9 @@ pub fn set_panic_hook() {
 }
 
 #[wasm_bindgen]
-pub fn encode_file(bytes: Vec<u8>, text: &str) -> Vec<u8> {
+pub fn encode_file(bytes: Vec<u8>, text: &str, format: &str) -> Vec<u8> {
     set_panic_hook();
+    let format = image::ImageFormat::from_extension(format);
 
     let source_img =  read_image_data_from_bytes(bytes, image::ImageFormat::Png);
     let encoded_text = encoder::encode_text(text, &source_img.bytes, image::ImageFormat::Png);
@@ -73,10 +74,10 @@ pub fn encode_file(bytes: Vec<u8>, text: &str) -> Vec<u8> {
 }
 
 #[wasm_bindgen]
-pub fn decode_file(bytes: Vec<u8>) -> String {
+pub fn decode_file(bytes: Vec<u8>, format: &str) -> String {
     set_panic_hook();
-
-    let source_img =  read_image_data_from_bytes(bytes, image::ImageFormat::Png);
+    let format = image::ImageFormat::from_extension(format).unwrap();
+    let source_img =  read_image_data_from_bytes(bytes, format);
     let decoded_text = decoder::decode_text(&source_img.bytes);
     decoded_text
 }
