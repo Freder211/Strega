@@ -8,7 +8,7 @@ use utils::print_vector;
 use crate::png_io::{read_image_data_from_file, write_image};
 
 const HEADER_SIZE: usize = 2 + 1;
-const SUPPORTED_FILE_TYPES: [&str] = [
+const SUPPORTED_FILE_FORMATS: [&str] = [
     "avif",
     "jpg",
     "jpeg",

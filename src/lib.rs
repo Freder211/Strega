@@ -9,7 +9,7 @@ use png_io::{write_image, read_image_data_from_bytes, write_image_to_bytes};
 use utils::print_vector;
 
 const HEADER_SIZE: usize = 2 + 1;
-const SUPPORTED_FILE_TYPES: &[&str] = &[
+const SUPPORTED_FILE_FORMATS: &[&str] = &[
     "avif",
     "jpg",
     "jpeg",
