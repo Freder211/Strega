@@ -4,32 +4,11 @@ mod encoder;
 mod decoder;
 mod utils;
 mod png_io;
+mod header;
 
 use png_io::{write_image, read_image_data_from_bytes, write_image_to_bytes};
 use utils::print_vector;
 
-const HEADER_SIZE: usize = 2 + 1;
-const SUPPORTED_FILE_FORMATS: &[&str] = &[
-    "avif",
-    "jpg",
-    "jpeg",
-    "png",
-    "gif",
-    "webp",
-    "tiff",
-    "tif",
-    "tga",
-    "dds",
-    "bmp",
-    "ico",
-    "hdr",
-    "exr",
-    "pbm",
-    "pam",
-    "ppm",
-    "pgm",
-    "ff"
-];
 
 
 
@@ -89,7 +68,7 @@ pub fn encode_file(bytes: Vec<u8>, text: &str) -> Vec<u8> {
     set_panic_hook();
 
     let source_img =  read_image_data_from_bytes(bytes, image::ImageFormat::Png);
-    let encoded_text = encoder::encode_text(text, &source_img.bytes);
+    let encoded_text = encoder::encode_text(text, &source_img.bytes, image::ImageFormat::Png);
     write_image_to_bytes(source_img, encoded_text, image::ImageFormat::Png)
 }
 

@@ -1,22 +1,15 @@
+use crate::header::HeaderParser;
 
 
 pub fn decode_text(bytes: &Vec<u8>) -> String {
     let ls_bits = get_ls_bits(bytes);
     let bytes = restore_bits_to_bytes(&ls_bits);
-    let significant_bytes = get_significant_bytes(&bytes);
+    let h_parser = HeaderParser::new(&bytes);
+    let significant_bytes = h_parser.get_significant_bytes();
     let text = String::from_utf8(significant_bytes).expect("couldn't parse bytes to string");
     text
 }
 
-fn get_significant_bytes(bytes: &Vec<u8>) -> Vec<u8> {
-    let header = &bytes[..crate::HEADER_SIZE].to_vec();
-    let significant_bits_len = parse_header(header) as usize;
-    let significant_bytes_len = significant_bits_len / 8;
-    let end = significant_bytes_len+crate::HEADER_SIZE;
-    let significant_bytes = bytes[crate::HEADER_SIZE..end].to_vec();
-    significant_bytes
-    
-}
 
 fn get_ls_bits(bytes: &Vec<u8>) -> Vec<u8> {
     let mut result: Vec<u8> = Vec::with_capacity(bytes.len());
@@ -52,14 +45,5 @@ fn restore_byte(bits: &[u8; 8]) -> u8 {
         shift_amount -= 1;
     }
 
-    accumolator
-}
-
-fn parse_header(header_bytes: &Vec<u8>) -> u16 {
-    let mut accumolator;
-    let first_byte = header_bytes[0];
-    let second_byte = header_bytes[1];
-    accumolator = (first_byte as u16) << 8;
-    accumolator = accumolator | second_byte as u16;
     accumolator
 }

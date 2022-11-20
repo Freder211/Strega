@@ -1,9 +1,14 @@
+use image::ImageFormat;
+use super::header::HEADER_SIZE;
 
-pub fn encode_text(secret: &str, bytes: &Vec<u8>) -> Vec<u8> {
+use crate::utils::get_image_format_header_byte;
+
+
+pub fn encode_text(secret: &str, bytes: &Vec<u8>, format: ImageFormat) -> Vec<u8> {
     let secret_bytes = Vec::from(secret.as_bytes());
 
     let splitted_bits = get_splitted_bits(secret_bytes);
-    let mut splitted_bits = add_header(splitted_bits);
+    let mut splitted_bits = add_header(splitted_bits, format);
     cut_secret_if_too_long(&mut splitted_bits, &bytes);
 
     let encoded_img_bytes = encode_bits(&splitted_bits, &bytes);
@@ -24,11 +29,12 @@ fn encode_bits(bits_to_encode: &Vec<u8>, source: &Vec<u8>) -> Vec<u8>{
     result
 }
 
-fn add_header(mut bits_to_encode: Vec<u8>) -> Vec<u8> {
+fn add_header(mut bits_to_encode: Vec<u8>, format: ImageFormat) -> Vec<u8> {
     let bits_len = bits_to_encode.len() as u16;
     let first_byte = (bits_len >> 8) as u8;
     let second_byte = (bits_len & 0b0000000011111111) as u8;
-    let header = vec![first_byte, second_byte];
+    let third_byte: u8 = get_image_format_header_byte(format).unwrap();
+    let header = vec![first_byte, second_byte, third_byte];
     let mut full_data = get_splitted_bits(header);
     full_data.append(&mut bits_to_encode);
     full_data
@@ -38,7 +44,7 @@ fn cut_secret_if_too_long(secret_bytes: &mut Vec<u8>, img_bytes: &Vec<u8>) {
     
     let secret_len = secret_bytes.len();
     let img_len = img_bytes.len();
-    let max_len = img_len + crate::HEADER_SIZE;
+    let max_len = img_len + HEADER_SIZE;
     if secret_len * 8 <= max_len {
         return;
     }

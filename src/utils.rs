@@ -1,8 +1,10 @@
 use image::ImageFormat;
+use super::header;
 
 
 
-struct FileFormatError {
+#[derive(Debug)]
+pub struct FileFormatError {
     detail: String
 }
 
@@ -20,7 +22,7 @@ pub fn print_vector(vec: &Vec<u8>) {
 
 pub fn get_image_format_header_byte(format: ImageFormat) -> Result<u8,  FileFormatError> {
     let format_file_type = format.extensions_str()[0];
-    for (i, file_type) in crate::SUPPORTED_FILE_FORMATS.iter().enumerate() {
+    for (i, file_type) in header::SUPPORTED_FILE_FORMATS.iter().enumerate() {
         if &format_file_type == file_type {
             return Ok(i.try_into().unwrap());
         }
