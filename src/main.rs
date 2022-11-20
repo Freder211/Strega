@@ -10,11 +10,12 @@ const HEADER_SIZE: usize = 2;
 
 fn main(){
     let source_img =  read_image_data("input.png");
-    let encoded_text = encoder::encode_text("miao", &source_img.bytes);
-    write_image("out.png", source_img, encoded_text);
+    let encoded_text = encoder::encode_text("miaoaaa", &source_img.bytes);
+    write_image("output.png", source_img, encoded_text);
 
     let source_img = read_image_data("output.png");
     let text = decoder::decode_text(&source_img.bytes);
+    println!("ehi");
     println!("{text}");
 
 }
