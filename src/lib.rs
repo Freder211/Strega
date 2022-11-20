@@ -69,7 +69,7 @@ pub fn encode_file(bytes: Vec<u8>, text: &str) -> Vec<u8> {
 
     let source_img =  read_image_data_from_bytes(bytes, image::ImageFormat::Png);
     let encoded_text = encoder::encode_text(text, &source_img.bytes);
-    write_image_to_bytes(source_img, encoded_text)
+    write_image_to_bytes(source_img, encoded_text, image::ImageFormat::Png)
 }
 
 #[wasm_bindgen]
