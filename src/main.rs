@@ -7,7 +7,23 @@ use utils::print_vector;
 
 use crate::png_io::{read_image_data_from_file, write_image};
 
-const HEADER_SIZE: usize = 2;
+const HEADER_SIZE: usize = 2 + 1;
+const SUPPORTED_FILE_TYPES: [&str] = [
+    "avif",
+    "jpg",
+    "png",
+    "gif",
+    "webp",
+    "tif",
+    "tga",
+    "dds",
+    "bmp",
+    "ico",
+    "hdr",
+    "exr",
+    "pbm",
+    "ff"
+];
 
 fn main(){
     let source_img =  read_image_data_from_file("input.png");
