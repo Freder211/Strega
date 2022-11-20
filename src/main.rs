@@ -11,9 +11,11 @@ const HEADER_SIZE: usize = 2 + 1;
 const SUPPORTED_FILE_TYPES: [&str] = [
     "avif",
     "jpg",
+    "jpeg",
     "png",
     "gif",
     "webp",
+    "tiff",
     "tif",
     "tga",
     "dds",
@@ -22,6 +24,9 @@ const SUPPORTED_FILE_TYPES: [&str] = [
     "hdr",
     "exr",
     "pbm",
+    "pam",
+    "ppm",
+    "pgm",
     "ff"
 ];
 
