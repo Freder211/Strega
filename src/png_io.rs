@@ -52,7 +52,7 @@ pub fn write_image_to_bytes(source_img: ImageData, encoded_bytes: Vec<u8>) -> Ve
     let mut dest_bytes = vec![].writer();
     {
         let mut encoder = png::Encoder::new(&mut dest_bytes, source_img.width, source_img.height); 
-        encoder.set_color(png::ColorType::Rgb);
+        encoder.set_color(source_img.color_type);
         let mut writer = encoder.write_header().unwrap();
         writer.write_image_data(&encoded_bytes).unwrap();
     }
@@ -65,7 +65,7 @@ pub fn write_image(output_path: &str, source_img: ImageData, encoded_bytes: Vec<
     let file = File::create(path).unwrap();
     let ref mut w = BufWriter::new(file);
     let mut encoder = png::Encoder::new(w, source_img.width, source_img.height); 
-    encoder.set_color(png::ColorType::Rgb);
+    encoder.set_color(source_img.color_type);
     let mut writer = encoder.write_header().unwrap();
     writer.write_image_data(&encoded_bytes).unwrap();
 }
