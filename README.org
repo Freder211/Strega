@@ -3,7 +3,6 @@ Strega is a steganography library written in rust.
 ** Features
 It currently supports png file encoding and decoding.
 *** CLI
-commands:
 **** Encoding
 #+BEGIN_SRC bash
   cargo run encode input-file.png "my top secret text!" -o output-file.png
