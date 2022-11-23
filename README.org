@@ -1,0 +1,37 @@
+* Strega
+Strega is a steganography library written in rust.
+** Features
+It currently supports png file encoding and decoding.
+*** CLI
+commands:
+**** Encoding
+#+BEGIN_SRC bash
+  cargo run encode input-file.png "my top secret text!" -o output-file.png
+  # the output file is optional
+#+END_SRC
+
+**** Decoding
+#+BEGIN_SRC bash
+  cargo run decode output-file.png 
+  "my top secret text!"
+  # the output file is optional
+#+END_SRC
+
+*** WASM
+I tried to add web assembly because it seemed like fun.
+#+BEGIN_SRC javascript
+  import * as strega from "strega";
+
+  const bytes = new Int8Array([]);
+  const encoded_bytes = strega.encode_file(bytes, "my top secret text!", "png");
+  strega.decode_file(encoded_bytes, "png");
+#+END_SRC
+
+You can find a really stupid web app example in www/ folder.
+** Project status
+This project is mainly for sperimentation purposes. This is my first
+project with the rust programming language, so probably some
+implementations could have been done better.
+Overall this is not supposed to be a tool that one should use on a
+regular basis as there are much better options (at least for now!). However everyone is
+welcome to send pull requests.
