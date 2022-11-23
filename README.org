@@ -17,7 +17,7 @@ It currently supports png file encoding and decoding.
 #+END_SRC
 
 *** WASM
-I tried to add web assembly because it seemed like fun.
+I tried to add web assembly just for fun.
 #+BEGIN_SRC javascript
   import * as strega from "strega";
 
