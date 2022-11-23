@@ -45,12 +45,6 @@ extern "C" {
     fn log_many(a: &str, b: &str);
 }
 
-#[wasm_bindgen]
-pub fn test_gatto() {
-    alert("micio miao");
-}
-
-
 
 pub fn set_panic_hook() {
     // When the `console_error_panic_hook` feature is enabled, we can call the
@@ -66,11 +60,11 @@ pub fn set_panic_hook() {
 #[wasm_bindgen]
 pub fn encode_file(bytes: Vec<u8>, text: &str, format: &str) -> Vec<u8> {
     set_panic_hook();
-    let format = image::ImageFormat::from_extension(format);
+    let format = image::ImageFormat::from_extension(format).unwrap();
 
-    let source_img =  read_image_data_from_bytes(bytes, image::ImageFormat::Png);
-    let encoded_text = encoder::encode_text(text, &source_img.bytes, image::ImageFormat::Png);
-    write_image_to_bytes(source_img, encoded_text, image::ImageFormat::Png)
+    let source_img =  read_image_data_from_bytes(bytes, format);
+    let encoded_text = encoder::encode_text(text, &source_img.bytes, format);
+    write_image_to_bytes(source_img, encoded_text, format)
 }
 
 #[wasm_bindgen]

@@ -6,6 +6,7 @@ import * as strega from "strega";
 * a.download = "demo.txt";
 * a.click(); */
 
+
 document.getElementById("confirm-encode").addEventListener("click", () => {
     readInputFile(encodeFile);
 })
@@ -17,31 +18,34 @@ document.getElementById("confirm-decode").addEventListener("click", () => {
 function readInputFile(cb) {
     let input_file = document.getElementById("input-file").files[0];
     let reader = new FileReader();
+    let extention = get_file_name_extention(input_file.name);
     reader.readAsArrayBuffer(input_file);
-    reader.addEventListener('load', cb);
+   
+    reader.addEventListener('load', function (e) {
+        return cb(e, extention);
+    });
   
 }
 
-function encodeFile(event) {
+function encodeFile(event, extention) {
   let bytes_buffer = event.target.result;
-
   const bytes = new Int8Array(bytes_buffer);
-    const encoded_bytes = strega.encode_file(bytes, getInputText());
-  downloadFile([encoded_bytes]);
+  const encoded_bytes = strega.encode_file(bytes, getInputText(), extention);
+  downloadFile([encoded_bytes], extention);
 }
 
-function decodeFile(event) {
+function decodeFile(event, extention) {
     let bytes_buffer = event.target.result;
     const bytes = new Int8Array(bytes_buffer);
-    let text = strega.decode_file(bytes);
+    let text = strega.decode_file(bytes, extention);
     showOutputText(text);
   
 }
 
-function downloadFile(bytes) {
+function downloadFile(bytes, extention) {
     var a = window.document.createElement('a');
     a.href = window.URL.createObjectURL(new Blob(bytes));
-    a.download = "out.png";
+    a.download = "out." + extention;
     document.body.appendChild(a)
     a.click();
     document.body.removeChild(a)
@@ -54,4 +58,8 @@ function getInputText() {
 
 function showOutputText(text) {
     document.getElementById("output-text").innerHTML = text;
+}
+
+function get_file_name_extention(file_name) {
+  return file_name.split(".").pop();
 }
