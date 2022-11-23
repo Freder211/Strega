@@ -12,7 +12,7 @@ It currently supports png file encoding and decoding.
 **** Decoding
 #+BEGIN_SRC bash
   cargo run decode output-file.png 
-  "my top secret text!"
+  > "my top secret text!"
   # the output file is optional
 #+END_SRC
 
