@@ -4,9 +4,9 @@ mod utils;
 mod png_io;
 mod header;
 
-use std::{path::Path, fmt::format};
+use std::path::Path;
 use image::ImageFormat;
-use utils::print_vector;
+
 
 use crate::png_io::{read_image_data_from_file, write_image};
 

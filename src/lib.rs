@@ -6,7 +6,7 @@ mod utils;
 mod png_io;
 mod header;
 
-use png_io::{write_image, read_image_data_from_bytes, write_image_to_bytes};
+pub use png_io::{write_image, read_image_data_from_bytes, write_image_to_bytes};
 use utils::print_vector;
 
 

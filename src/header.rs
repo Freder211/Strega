@@ -25,17 +25,6 @@ pub const SUPPORTED_FILE_FORMATS: &[&str] = &[
 
 
 
-#[derive(Debug)]
-struct FileFormatError {
-    detail: String
-}
-
-impl FileFormatError {
-    fn new(msg: String) -> FileFormatError {
-        FileFormatError { detail: msg }
-    }
-}
-
 pub struct HeaderParser<'a> {
     bytes: &'a Vec<u8>
 }
